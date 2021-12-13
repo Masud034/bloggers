@@ -1,5 +1,5 @@
 import BlogList from "./BlogList.";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const Home = () => {
 
     const [blogs, setBlogs] = useState( [
@@ -9,6 +9,7 @@ const Home = () => {
 
     ]);
 
+    const [name, setName] = useState('Mario');
 
     const handleDelete = (id) => {
         console.log(id);
@@ -17,9 +18,15 @@ const Home = () => {
         setBlogs(newBlogs);
     }
 
+    useEffect( () => {
+        console.log('use effect ran');
+    }, [name]);
+
     return ( 
         <div className="home">
             <BlogList blogs = {blogs} title = "All blogs" handleDelete = {handleDelete}/>
+            <h2>Hello, {name} </h2>
+            <button onClick = { ()=> setName('George')}> Change Name</button>
         </div>
      );
 }
