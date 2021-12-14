@@ -3,15 +3,7 @@ import { useState, useEffect } from "react";
 const Home = () => {
 
     const [blogs, setBlogs] = useState(null);
-
- //   const [name, setName] = useState('Mario');
-
-     const handleDelete = (id) => {
-         console.log(id);
-         const newBlogs = blogs.filter( blog => blog.id !== id)
-         setBlogs(newBlogs);
-     }
-
+    const [isPending, setIsPending] = useState(true);
     useEffect(() => {
         fetch('http://localhost:8000/blogs')
           .then(res => {
@@ -19,13 +11,14 @@ const Home = () => {
           })
           .then(data => {
             setBlogs(data);
-            console.log(blogs);
+            setIsPending(false);
           })
       }, [])
 
     return ( 
         <div className="home">
-            {blogs && <BlogList blogs = {blogs} title = "All blogs" handleDelete = {handleDelete}/> }
+            { isPending && <div className="loading">Loading...</div> }
+            { blogs && <BlogList blogs = {blogs} title = "All blogs" /> }
         </div>
      );
 }
